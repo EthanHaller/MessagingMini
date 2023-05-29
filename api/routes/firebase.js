@@ -1,9 +1,9 @@
-import { initializeApp } from "firebase/app"; 
-import { getFirestore } from "firebase/firestore";
+const { initializeApp } = require("firebase/app"); 
+const { getFirestore } = require("firebase/firestore");
 
-import serviceAccount from "../permissions.json";
+const serviceAccount = require("../permissions.json");
 
 const app = initializeApp(serviceAccount);
 const db = getFirestore(app);
 
-export default db;
+module.exports = db;

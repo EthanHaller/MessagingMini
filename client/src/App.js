@@ -1,32 +1,53 @@
-import React, { Component } from 'react';
 import './App.css';
+import axios from "axios"
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { apiResponse: "" };
+import React, {useState, useEffect} from "react"
+import { Button, TextField, Typography } from '@mui/material';
+
+function App() {
+  const [info, setInfo] = useState();
+  const [message, setMessage] = useState("")
+  const [username, setUsername] = useState("");
+
+  const getInfo = () => {
+    fetch("http://localhost:9000/messages/info")
+    .then((res) => res.json())
+    .then((text) => setInfo(text.result))
+    .catch((err) => console.log(err))
+  }
+  useEffect(() => {
+    getInfo()
+  }, [])
+
+  const post = () => {
+    axios.post("http://localhost:9000/messages/post/", {
+      text: message,
+      likes: 0,
+      responses: [],
+      username: username
+    })
+    .then((res) => console.log(res.data))
+    .catch((err) => console.log(err))
+    .then(getInfo())
   }
 
-  callAPI() {
-      fetch("http://localhost:9000/testAPI")
-          .then(res => res.text())
-          .then(res => this.setState({ apiResponse: res }));
+  const updateMessage = (e) => {
+    setMessage(e.target.value)
+  }
+  const updateUsername = (e) => {
+    setUsername(e.target.value)
   }
 
-  componentWillMount() {
-      this.callAPI();
-  }
+  console.log(info)
 
-  render() {
-    return (
-      <div className='App'>
-        <header className='App-header'>
-          <h1 className='App-title'>Welcome to React</h1>
-        </header>
-        <p className='App-intro'>{this.state.apiResponse}</p>
-      </div>
-    )
-  }
+  return (
+    <React.Fragment>
+      <Typography variant='h3'>Message Board</Typography>
+      <TextField onChange={updateUsername} placeholder='Username' />
+      <TextField onChange={updateMessage} placeholder='Message' />
+      <Button onClick={() => post()}>Post</Button>
+    </React.Fragment>
+  );
 }
 
 export default App;
