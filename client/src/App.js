@@ -62,27 +62,27 @@ function App() {
     <Box m='30px' sx={{ flexGrow: 1 }}>
       <Typography variant='h3'>{isLoggedIn ? "Message Board" : "Message Board Login"}</Typography>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={12} lg={4}>
           <Box>
             <Box display='flex'>
-              <TextField onChange={updateUsername} placeholder='Username' width='80%'/>
-              <Button onClick={() => setIsLoggedIn(true)} variant='outlined' endIcon={<LoginIcon />}>Login</Button>
+              <TextField onChange={updateUsername} placeholder='Username' sx={{ width: '80%' }}/>
+              <Button onClick={() => setIsLoggedIn(true)} variant='outlined' sx={{ width: '20%' }} endIcon={<LoginIcon />}>Login</Button>
             </Box>
             {isLoggedIn &&
             <Box display='flex'>
-              <TextField onChange={updateMessage} placeholder='Message' />
-              <Button onClick={() => post()} variant='outlined'>Post</Button>
+              <TextField onChange={updateMessage} placeholder='Message' sx={{ width: '80%' }}/>
+              <Button onClick={() => post()} variant='outlined' sx={{ width: '20%' }}>Post</Button>
             </Box>
             }
           </Box>
         </Grid>
         {isLoggedIn && 
-        <Grid item xs={4}>
+        <Grid item xs={12} lg={4}>
           <UserMessages usersMessages={usersMessages} getMessages={() => getMessages(username)}/>
         </Grid>
         }
         {info && 
-        <Grid item xs={isLoggedIn ? 4 : 8}>
+        <Grid item xs={12} lg={isLoggedIn ? 4 : 8}>
           <AllMessages info={info}/>
         </Grid>
         }
